@@ -248,6 +248,8 @@ class Ship(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y + 25)
         self.mask = pygame.mask.from_surface(self.image)
+    def end(self):
+        self.mask.clear()
 
 
 class Environment(pygame.sprite.Sprite):
@@ -327,7 +329,9 @@ def new_game(lvl):
     left_blocks_sprites.empty()
     up_blocks_sprites.empty()
     triger_sprites.empty()
-
+    for _ in ship_sprites:
+        _.end()
+    
     pole = Pole(50, 50, matrix)
     time = 0
     pole.render()
@@ -353,7 +357,7 @@ while running:
 
     if player.rect.y > 600:
         new_game(level)
-
+        
     image = load_image(f"fon_{n}.png")
     image_rect = image.get_rect()
     game_screen.blit(image, image_rect)
